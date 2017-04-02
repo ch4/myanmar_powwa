@@ -86,6 +86,16 @@
               [100.359444, 10.011944],
               [92.367778, 10.011944]
             ]
+          },
+          "heatmap3": {
+            type: 'image',
+            url: 'heatmap/radiation.txt.phantom.300-8per-id0.8.png',
+            "coordinates": [
+              [92.367778, 27.299444],
+              [100.359444, 27.299444],
+              [100.359444, 10.011944],
+              [92.367778, 10.011944]
+            ]
           }
         },
         "sprite": "mapbox://sprites/mapbox/dark-v9",
@@ -123,6 +133,12 @@
                 "type": "raster",
                 "paint": {"raster-opacity": 0.5}
             },
+          {
+            "id": "heatmap3",
+            "source": "heatmap3",
+            "type": "raster",
+            "paint": {"raster-opacity": 0.5}
+          },
             {
                 "id": "cities",
                 "source": "mapbox",
@@ -164,15 +180,19 @@
 
     var map = new mapboxgl.Map({
         container: 'map',
-        maxZoom: 5.99,
-        minZoom: 4,
+//        maxZoom: 5.99,
+//        minZoom: 4,
         zoom: 5,
         center: [95.359444, 19.299444],
         style: mapStyle,
         hash: false
     });
 
-    var toggleableLayerIds = [ {sourceId:'overlay',name:'Population Density'}, {sourceId:'heatmap2',name:'Solar Irradiance'} ];
+    var toggleableLayerIds = [
+      {sourceId:'overlay',name:'Population Density'},
+      {sourceId:'heatmap2',name:'Solar Irradiance'},
+      {sourceId:'heatmap3',name:'Heatmap 3'},
+    ];
 
     for (var key in toggleableLayerIds) {
       var layer = toggleableLayerIds[key];
