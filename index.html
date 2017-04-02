@@ -87,12 +87,15 @@
               [92.367778, 10.011944]
             ]
           },
-          "townships": {
-            type: "geojson",
-            // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
-            // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
-            data: "citiestownpopulation2013.geojson",
-            cluster: false
+          "heatmap3": {
+            type: 'image',
+            url: 'heatmap/radiation.txt.phantom.300-8per-id0.8.png',
+            "coordinates": [
+              [92.367778, 27.299444],
+              [100.359444, 27.299444],
+              [100.359444, 10.011944],
+              [92.367778, 10.011944]
+            ]
           }
         },
         "sprite": "mapbox://sprites/mapbox/dark-v9",
@@ -130,6 +133,12 @@
                 "type": "raster",
                 "paint": {"raster-opacity": 0.5}
             },
+          {
+            "id": "heatmap3",
+            "source": "heatmap3",
+            "type": "raster",
+            "paint": {"raster-opacity": 0.5}
+          },
             {
                 "id": "cities",
                 "source": "mapbox",
@@ -165,26 +174,7 @@
                     "text-halo-width": 2,
                     "text-halo-color": "rgba(0, 0, 0, 0.85)"
                 }
-            },
-          {
-            "id": "townships",
-            "source": "townships",
-            "type": "symbol",
-            "layout": {
-              "text-transform": "uppercase",
-              "text-field": "{name_en}",
-              "text-font": ["DIN Offc Pro Bold", "Arial Unicode MS Bold"],
-              "text-letter-spacing": 0.15,
-              "text-max-width": 7,
-              "text-size": {"stops": [[4, 10], [6, 14]]}
-            },
-//            "filter": [">=", "area", 80000],
-//            "paint": {
-//              "text-color": "#969696",
-//              "text-halo-width": 2,
-//              "text-halo-color": "rgba(0, 0, 0, 0.85)"
-//            }
-          }
+            }
         ]
     };
 
@@ -198,7 +188,11 @@
         hash: false
     });
 
-    var toggleableLayerIds = [ {sourceId:'overlay',name:'Population Density'}, {sourceId:'heatmap2',name:'Solar Irradiance'} ];
+    var toggleableLayerIds = [
+      {sourceId:'overlay',name:'Population Density'},
+      {sourceId:'heatmap2',name:'Solar Irradiance'},
+      {sourceId:'heatmap3',name:'Heatmap 3'},
+    ];
 
     for (var key in toggleableLayerIds) {
       var layer = toggleableLayerIds[key];
@@ -228,48 +222,6 @@ console.log(visibility)
       var layers = document.getElementById('menu');
       layers.appendChild(link);
     }
-
-    map.on('load', function () {
-
-      map.addLayer({
-        "id": "points",
-        "type": "symbol",
-        "source": {
-          "type": "geojson",
-          "data": {
-            "type": "FeatureCollection",
-            "features": [{
-              "type": "Feature",
-              "geometry": {
-                "type": "Point",
-                "coordinates": [-77.03238901390978, 38.913188059745586]
-              },
-              "properties": {
-                "title": "Mapbox DC",
-                "icon": "monument"
-              }
-            }, {
-              "type": "Feature",
-              "geometry": {
-                "type": "Point",
-                "coordinates": [-122.414, 37.776]
-              },
-              "properties": {
-                "title": "Mapbox SF",
-                "icon": "harbor"
-              }
-            }]
-          }
-        },
-        "layout": {
-          "icon-image": "{icon}-15",
-          "text-field": "{title}",
-          "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-          "text-offset": [0, 0.6],
-          "text-anchor": "top"
-        }
-      });
-    });
 
 </script>
 
