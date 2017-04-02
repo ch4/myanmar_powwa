@@ -15,7 +15,7 @@ MAX_Y=300
 DRAW_DOTS=False
 
 # at what distance should we stop making predictions?
-IGNORE_DIST=.001
+IGNORE_DIST=.5
 
 def pixel_to_ll(x,y):
     delta_lat = MAX_LAT-MIN_LAT
@@ -83,7 +83,8 @@ def load_prices(fs):
                 if rent / (bedrooms + 1) < 150:
                     continue
 
-                for ten in range(2):
+                ## multiplies the points
+                for ten in range(4):
                     # latf = float(lat) + 0.01
                     # lonf = float(lon) + 0.01
                     raw_prices.append((bedrooms, rent, float(lat), float(lon)))
@@ -270,7 +271,8 @@ def start(fname):
             if 0 <= x < MAX_X and 0 <= y < MAX_Y:
                 IM[x,y] = (0,0,0)
 
-    out_fname = fname + ".phantom." + str(MAX_X)
+    import datetime
+    out_fname = fname + ".phantom." + str(MAX_X) + str(datetime.datetime.now())
     I.save(out_fname + ".png", "PNG")
     with open(out_fname + ".metadata.json", "w") as outf:
       outf.write(json.dumps({
