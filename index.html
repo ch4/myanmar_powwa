@@ -89,7 +89,27 @@
           },
           "heatmap3": {
             type: 'image',
-            url: 'heatmap/radiation.txt.phantom.300-8per-id0.8.png',
+            url: 'heatmap/mobileavailability.png',
+            "coordinates": [
+              [92.367778, 27.299444],
+              [100.359444, 27.299444],
+              [100.359444, 10.011944],
+              [92.367778, 10.011944]
+            ]
+          },
+          "heatmap4": {
+            type: 'image',
+            url: 'heatmap/popdensityrural.png',
+            "coordinates": [
+              [92.367778, 27.299444],
+              [100.359444, 27.299444],
+              [100.359444, 10.011944],
+              [92.367778, 10.011944]
+            ]
+          },
+          "heatmap5": {
+            type: 'image',
+            url: 'heatmap/popdensityurban.png',
             "coordinates": [
               [92.367778, 27.299444],
               [100.359444, 27.299444],
@@ -136,6 +156,18 @@
           {
             "id": "heatmap3",
             "source": "heatmap3",
+            "type": "raster",
+            "paint": {"raster-opacity": 0.5}
+          },
+          {
+            "id": "heatmap4",
+            "source": "heatmap4",
+            "type": "raster",
+            "paint": {"raster-opacity": 0.5}
+          },
+          {
+            "id": "heatmap5",
+            "source": "heatmap5",
             "type": "raster",
             "paint": {"raster-opacity": 0.5}
           },
@@ -189,9 +221,11 @@
     });
 
     var toggleableLayerIds = [
-      {sourceId:'overlay',name:'Population Density'},
+      {sourceId:'overlay',name:'Population'},
       {sourceId:'heatmap2',name:'Solar Irradiance'},
-      {sourceId:'heatmap3',name:'Heatmap 3'},
+      {sourceId:'heatmap3',name:'Mobile Availability'},
+      {sourceId:'heatmap4',name:'Pop. Density (Rural)'},
+      {sourceId:'heatmap5',name:'Pop. Density (Urban)'},
     ];
 
     for (var key in toggleableLayerIds) {
