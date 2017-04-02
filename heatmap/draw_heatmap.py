@@ -15,7 +15,7 @@ MAX_Y=300
 DRAW_DOTS=False
 
 # at what distance should we stop making predictions?
-IGNORE_DIST=.05
+IGNORE_DIST=.5
 
 def pixel_to_ll(x,y):
     delta_lat = MAX_LAT-MIN_LAT
