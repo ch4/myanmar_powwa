@@ -9,13 +9,13 @@ from query_padmapper import MAX_LAT, MAX_LON, MIN_LAT, MIN_LON
 
 # change these to change how detailed the generated image is
 # (1000x1000 is good, but very slow)
-MAX_X=1000
-MAX_Y=1000
+MAX_X=300
+MAX_Y=300
 
-DRAW_DOTS=True
+DRAW_DOTS=False
 
 # at what distance should we stop making predictions?
-IGNORE_DIST=0.01
+IGNORE_DIST=.05
 
 def pixel_to_ll(x,y):
     delta_lat = MAX_LAT-MIN_LAT
@@ -83,7 +83,10 @@ def load_prices(fs):
                 if rent / (bedrooms + 1) < 150:
                     continue
 
-                raw_prices.append((bedrooms, rent, float(lat), float(lon)))
+                for ten in range(8):
+                    # latf = float(lat) + 0.01
+                    # lonf = float(lon) + 0.01
+                    raw_prices.append((bedrooms, rent, float(lat), float(lon)))
     #print(raw_prices)
     slope, y_intercept = linear_regression([(bedrooms, rent) for (bedrooms, rent, lat, lon) in raw_prices])
     print "slope =", slope
@@ -92,7 +95,7 @@ def load_prices(fs):
     print "x intercept =", x_intercept
     num_phantom_bedrooms = -x_intercept # positive now
 
-    prices = [(rent / (bedrooms + num_phantom_bedrooms), lat, lon, bedrooms) for (bedrooms, rent, lat, lon) in raw_prices]
+    prices = [(rent, lat, lon, bedrooms) for (bedrooms, rent, lat, lon) in raw_prices]
     return prices, num_phantom_bedrooms
 
 def linear_regression(pairs):
@@ -137,6 +140,9 @@ def color(val, buckets):
               (0, 0, 255),
               ]
 
+    # colors = [(0, 0, 0),
+    #           ]
+
     for price, color in zip(buckets, colors):
         if val > price:
             return color
@@ -163,7 +169,7 @@ def gaussian(prices, lat, lon, ignore=None):
         num += price * weight
         dnm += weight
         
-        if weight > 2:
+        if weight > .1:
             c += 1
 
     # don't display any averages that don't take into account at least five data points with significant weight
@@ -176,7 +182,7 @@ def gaussian(prices, lat, lon, ignore=None):
 def start(fname):
     print "loading data..."
     priced_points, num_phantom_bedrooms = load_prices([fname])
-
+    print(priced_points)
     print "computing #bedroom adjustments..."
     # compute what the error would be at each data point if we priced it without being able to take it into account
     # do this on a per-bedroom basis, so that we can compute correction factors
@@ -213,13 +219,14 @@ def start(fname):
         for y in range(MAX_Y):
             lat, lon = pixel_to_ll(x,y)
             prices[x,y] = gaussian(priced_points, lat, lon)
-    print("after gaussian: ",prices)
+    #print("after gaussian: ",prices)
     # determine buckets
     # we want 18 buckets (17 divisions) of equal area
     all_priced_areas = [x for x in sorted(prices.values()) if x is not None]
     total_priced_area = len(all_priced_areas)
     #print("all priced areas: ", all_priced_areas)
     buckets = []
+    #divisions = 17.0
     divisions = 17.0
     stride = total_priced_area / (divisions + 1)
     next_i = int(stride)

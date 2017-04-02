@@ -30,6 +30,12 @@ MAX_LON=-121.62
 MAX_LAT=37.83
 MIN_LON=-122.70
 
+#myanmar
+MIN_LAT=10.011944
+MAX_LAT=27.299444
+MIN_LON=92.367778
+MAX_LON=100.359444
+
 def download(fname):
   base = os.path.basename(fname)
   print "Visit:"
@@ -69,7 +75,7 @@ def start(fname_download, fname_processed):
   if not os.path.exists(fname_download):
     download(fname_download)
   if not os.path.exists(fname_download):
-    raise Exeption("%s still missing" % fname_download)
+    raise Exception("%s still missing" % fname_download)
 
   if not os.path.exists(fname_processed):
     process(fname_download, fname_processed)
