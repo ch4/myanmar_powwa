@@ -10,9 +10,52 @@
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
     </style>
+    <style>
+        #menu {
+            background: #fff;
+            position: absolute;
+            z-index: 1;
+            top: 10px;
+            right: 10px;
+            border-radius: 3px;
+            width: 120px;
+            border: 1px solid rgba(0,0,0,0.4);
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        #menu a {
+            font-size: 13px;
+            color: #404040;
+            display: block;
+            margin: 0;
+            padding: 0;
+            padding: 10px;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(0,0,0,0.25);
+            text-align: center;
+        }
+
+        #menu a:last-child {
+            border: none;
+        }
+
+        #menu a:hover {
+            background-color: #f8f8f8;
+            color: #404040;
+        }
+
+        #menu a.active {
+            background-color: #3887be;
+            color: #ffffff;
+        }
+
+        #menu a.active:hover {
+            background: #3074a4;
+        }
+    </style>
 </head>
 <body>
-
+<nav id="menu"></nav>
 <div id='map'></div>
 <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiaGNzY3R5IiwiYSI6ImNqMHprMXJ5cjAyNzQzM210aDE3YXk5dzAifQ.10Q2nNWpOro4K-dxPE13zA';
@@ -33,7 +76,17 @@
                     [100.359444, 10.011944],
                     [92.367778, 10.011944]
                 ]
-            }
+            },
+          "heatmap2": {
+            type: 'image',
+            url: 'heatmap/radiation.txt.phantom.300-8per-id0.8.png',
+            "coordinates": [
+              [92.367778, 27.299444],
+              [100.359444, 27.299444],
+              [100.359444, 10.011944],
+              [92.367778, 10.011944]
+            ]
+          }
         },
         "sprite": "mapbox://sprites/mapbox/dark-v9",
         "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
@@ -62,7 +115,13 @@
                 "id": "overlay",
                 "source": "overlay",
                 "type": "raster",
-                "paint": {"raster-opacity": 0.85}
+                "paint": {"raster-opacity": 0.5}
+            },
+            {
+                "id": "heatmap2",
+                "source": "heatmap2",
+                "type": "raster",
+                "paint": {"raster-opacity": 0.5}
             },
             {
                 "id": "cities",
@@ -108,51 +167,58 @@
         maxZoom: 5.99,
         minZoom: 4,
         zoom: 5,
-        center: [-75.789, 41.874],
+        center: [95.359444, 19.299444],
         style: mapStyle,
         hash: false
     });
 
-    map.on('load', function () {
-       
-       /*
-       "overlay": {
-                "type": "image",
-                "url": "heatmap/myanmar2.png",
-                "coordinates": [
-                    [92.367778, 27.299444],
-                    [100.359444, 27.299444],
-                    [100.359444, 10.011944],
-                    [92.367778, 10.011944]
-                ]
-            }
+//    map.on('load', function () {
+//        map.addSource('heatmap2', {
+//            type: 'image',
+//            url: 'heatmap/myanmar2.txt.phantom.300.png',
+//            "coordinates": [
+//                    [92.367778, 27.299444],
+//                    [100.359444, 27.299444],
+//                    [100.359444, 10.011944],
+//                    [92.367778, 10.011944]
+//                ]
+//        });
+//        map.addLayer({
+//            "id": "heatmap2",
+//            "source": "overlay",
+//            "type": "raster",
+//            "paint": {"raster-opacity": 0.85}
+//        });
+//    });
+    var toggleableLayerIds = [ 'overlay', 'heatmap2' ];
 
+    for (var i = 0; i < toggleableLayerIds.length; i++) {
+      var id = toggleableLayerIds[i];
 
+      var link = document.createElement('a');
+      link.href = '#';
+      link.className = 'active';
+      link.textContent = id;
 
-            {
-                "id": "overlay",
-                "source": "overlay",
-                "type": "raster",
-                "paint": {"raster-opacity": 0.85}
-            },
-       */
-        map.addSource('heatmap2', {
-            type: 'image',
-            url: 'heatmap/myanmar2.txt.phantom.300.png',
-            "coordinates": [
-                    [92.367778, 27.299444],
-                    [100.359444, 27.299444],
-                    [100.359444, 10.011944],
-                    [92.367778, 10.011944]
-                ]   
-        });
-        map.addLayer({
-            "id": "heatmap2",
-            "source": "overlay",
-            "type": "raster",
-            "paint": {"raster-opacity": 0.85}
-        });
-    });
+      link.onclick = function (e) {
+        var clickedLayer = this.textContent;
+        e.preventDefault();
+        e.stopPropagation();
+
+        var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+console.log(visibility)
+        if (!visibility || visibility === 'visible') {
+          map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+          this.className = '';
+        } else {
+          this.className = 'active';
+          map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+        }
+      };
+
+      var layers = document.getElementById('menu');
+      layers.appendChild(link);
+    }
 
 </script>
 
