@@ -15,7 +15,7 @@ MAX_Y=300
 DRAW_DOTS=False
 
 # at what distance should we stop making predictions?
-IGNORE_DIST=.05
+IGNORE_DIST=.001
 
 def pixel_to_ll(x,y):
     delta_lat = MAX_LAT-MIN_LAT
@@ -83,7 +83,7 @@ def load_prices(fs):
                 if rent / (bedrooms + 1) < 150:
                     continue
 
-                for ten in range(8):
+                for ten in range(2):
                     # latf = float(lat) + 0.01
                     # lonf = float(lon) + 0.01
                     raw_prices.append((bedrooms, rent, float(lat), float(lon)))
@@ -140,8 +140,23 @@ def color(val, buckets):
               (0, 0, 255),
               ]
 
-    # colors = [(0, 0, 0),
-    #           ]
+    colors = [(0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0)]
 
     for price, color in zip(buckets, colors):
         if val > price:
