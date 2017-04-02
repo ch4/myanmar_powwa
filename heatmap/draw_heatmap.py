@@ -83,6 +83,7 @@ def load_prices(fs):
                 if rent / (bedrooms + 1) < 150:
                     continue
 
+                ## multiplies the points
                 for ten in range(8):
                     # latf = float(lat) + 0.01
                     # lonf = float(lon) + 0.01
@@ -255,7 +256,8 @@ def start(fname):
             if 0 <= x < MAX_X and 0 <= y < MAX_Y:
                 IM[x,y] = (0,0,0)
 
-    out_fname = fname + ".phantom." + str(MAX_X)
+    import datetime
+    out_fname = fname + ".phantom." + str(MAX_X) + str(datetime.datetime.now())
     I.save(out_fname + ".png", "PNG")
     with open(out_fname + ".metadata.json", "w") as outf:
       outf.write(json.dumps({

@@ -26,7 +26,7 @@
             },
             "overlay": {
                 "type": "image",
-                "url": "heatmap/myanmar2.png",
+                "url": "heatmap/myanmar2.txt.phantom.300-blah.png",
                 "coordinates": [
                     [92.367778, 27.299444],
                     [100.359444, 27.299444],
@@ -111,6 +111,47 @@
         center: [-75.789, 41.874],
         style: mapStyle,
         hash: false
+    });
+
+    map.on('load', function () {
+       
+       /*
+       "overlay": {
+                "type": "image",
+                "url": "heatmap/myanmar2.png",
+                "coordinates": [
+                    [92.367778, 27.299444],
+                    [100.359444, 27.299444],
+                    [100.359444, 10.011944],
+                    [92.367778, 10.011944]
+                ]
+            }
+
+
+
+            {
+                "id": "overlay",
+                "source": "overlay",
+                "type": "raster",
+                "paint": {"raster-opacity": 0.85}
+            },
+       */
+        map.addSource('heatmap2', {
+            type: 'image',
+            url: 'heatmap/myanmar2.txt.phantom.300.png',
+            "coordinates": [
+                    [92.367778, 27.299444],
+                    [100.359444, 27.299444],
+                    [100.359444, 10.011944],
+                    [92.367778, 10.011944]
+                ]   
+        });
+        map.addLayer({
+            "id": "heatmap2",
+            "source": "overlay",
+            "type": "raster",
+            "paint": {"raster-opacity": 0.85}
+        });
     });
 
 </script>
