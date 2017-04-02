@@ -116,6 +116,16 @@
               [100.359444, 10.011944],
               [92.367778, 10.011944]
             ]
+          },
+          "heatmap6": {
+            type: 'image',
+            url: 'heatmap/badtransmissionlines.png',
+            "coordinates": [
+              [92.367778, 27.299444],
+              [100.359444, 27.299444],
+              [100.359444, 10.011944],
+              [92.367778, 10.011944]
+            ]
           }
         },
         "sprite": "mapbox://sprites/mapbox/dark-v9",
@@ -170,6 +180,12 @@
             "source": "heatmap5",
             "type": "raster",
             "paint": {"raster-opacity": 0.5}
+          },
+          {
+            "id": "heatmap6",
+            "source": "heatmap6",
+            "type": "raster",
+            "paint": {"raster-opacity": 1.0}
           },
             {
                 "id": "cities",
@@ -226,6 +242,7 @@
       {sourceId:'heatmap3',name:'Mobile Availability'},
       {sourceId:'heatmap4',name:'Pop. Density (Rural)'},
       {sourceId:'heatmap5',name:'Pop. Density (Urban)'},
+      {sourceId:'heatmap6',name:'Transmission Lines'},
     ];
 
     for (var key in toggleableLayerIds) {
