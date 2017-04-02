@@ -84,7 +84,7 @@ def load_prices(fs):
                     continue
 
                 ## multiplies the points
-                for ten in range(8):
+                for ten in range(4):
                     # latf = float(lat) + 0.01
                     # lonf = float(lon) + 0.01
                     raw_prices.append((bedrooms, rent, float(lat), float(lon)))
@@ -141,8 +141,23 @@ def color(val, buckets):
               (0, 0, 255),
               ]
 
-    # colors = [(0, 0, 0),
-    #           ]
+    colors = [(0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0),
+              (0, 0, 0)]
 
     for price, color in zip(buckets, colors):
         if val > price:
