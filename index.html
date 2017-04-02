@@ -172,36 +172,19 @@
         hash: false
     });
 
-//    map.on('load', function () {
-//        map.addSource('heatmap2', {
-//            type: 'image',
-//            url: 'heatmap/myanmar2.txt.phantom.300.png',
-//            "coordinates": [
-//                    [92.367778, 27.299444],
-//                    [100.359444, 27.299444],
-//                    [100.359444, 10.011944],
-//                    [92.367778, 10.011944]
-//                ]
-//        });
-//        map.addLayer({
-//            "id": "heatmap2",
-//            "source": "overlay",
-//            "type": "raster",
-//            "paint": {"raster-opacity": 0.85}
-//        });
-//    });
-    var toggleableLayerIds = [ 'overlay', 'heatmap2' ];
+    var toggleableLayerIds = [ {sourceId:'overlay',name:'Population Density'}, {sourceId:'heatmap2',name:'Solar Irradiance'} ];
 
-    for (var i = 0; i < toggleableLayerIds.length; i++) {
-      var id = toggleableLayerIds[i];
+    for (var key in toggleableLayerIds) {
+      var layer = toggleableLayerIds[key];
 
       var link = document.createElement('a');
       link.href = '#';
       link.className = 'active';
-      link.textContent = id;
+      link.textContent = layer.name;
+      link.layerId = layer.sourceId;
 
       link.onclick = function (e) {
-        var clickedLayer = this.textContent;
+        var clickedLayer = this.layerId;
         e.preventDefault();
         e.stopPropagation();
 
